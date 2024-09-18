@@ -1,5 +1,6 @@
 import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
+import Header from "../components/Header";
 
 export const metadata = {
   title: "Create Next App",
@@ -10,7 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <SessionWrapper>
-        <body>{children}</body>
+        <body>
+          <Header />
+          {children}
+        </body>
       </SessionWrapper>
     </html>
   );
