@@ -64,7 +64,7 @@ const Dashboard = () => {
             </div>
           </div>
         </header>
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+        <div className="px-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-8">
           <div className="h-32 rounded-lg bg-gray-200"></div>
           <div className="h-32 rounded-lg bg-gray-200"></div>
           <div className="h-32 rounded-lg bg-gray-200"></div>

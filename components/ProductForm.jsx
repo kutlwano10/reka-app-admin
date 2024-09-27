@@ -1,73 +1,73 @@
-"use client"
+"use client";
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CldUploadWidget } from 'next-cloudinary';
+import { CldUploadWidget } from "next-cloudinary";
 
-const ProductCard = () => {
+const ProductForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [isUpLoading, setIsUpLoading] = useState(false);
 
-  const router = useRouter()
+  const router = useRouter();
 
+  const uploadImagesQueue = {};
 
-  const  handleImageUpload = async(e) => {
-
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'PresetNyana'); // unsigned preset
+    formData.append("file", file);
+    formData.append("upload_preset", "PresetNyana"); // unsigned preset
 
     try {
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-        method: 'POST',
-        body: formData,
-      });
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
-      console.log(data.url)
-      setImages(data.url);  // The uploaded image URL
+
+      console.log(data.url);
+      setImages(data.url); // The uploaded image URL
     } catch (err) {
       console.error(err);
-    } 
-  }
-
+    }
+  };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     // if (!title || !description|| !images || !price) {
     //   alert("Insert details");
     //   return
     // }
- 
-// console.log(formData)
+
+    // console.log(formData)
     try {
-      console.log(images)
+      console.log(images);
       const res = await fetch("http://localhost:3000/api/products", {
         method: "POST",
         headers: {
           "constent-type": "application/json",
         },
-        body: JSON.stringify({ title, description, images, price,category }),
+        body: JSON.stringify({ title, description, images, price, category }),
       });
-      if(res.ok) {
-        router.push("/products")
-
-      }else {
-        throw new Error ("Failed to Create Product")
+      if (res.ok) {
+        router.push("/products");
+      } else {
+        throw new Error("Failed to Create Product");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   return (
     <>
@@ -82,7 +82,7 @@ const ProductCard = () => {
                 Title
               </label>
               <input
-              onChange={(e)=> setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
                 type="text"
                 id="example1"
                 className="block w-full border rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 p-3"
@@ -99,13 +99,12 @@ const ProductCard = () => {
                 Select Category
               </label>
               <select
-
                 type="text"
                 id="example1"
                 className="block w-full  border rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 p-3"
                 placeholder="Product Category "
                 value={category}
-                onChange={(e)=>setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="Select">No Category Selected</option>
                 <option value="Meat and Fish">Meat and Fish</option>
@@ -159,9 +158,32 @@ const ProductCard = () => {
                       SVG, PNG, JPG or GIF (max. 800x400px)
                     </p>
                   </div>
-                  <input id="example5" type="file" onChange={handleImageUpload} className="sr-only" />
+                  <input
+                    id="example5"
+                    type="file"
+                    onChange={handleImageUpload}
+                    className="sr-only"
+                  />
                 </label>
               </div>
+              {/* for the Pictures to appear */}
+                <div className="grid grid-cols-2 items-center gap-4 rounded">
+                  {images.length > 0 ? (
+                    <div className="relative group">
+                      <img
+                        className="object-cover h-32 w-44 rounded-md p-2"
+                        src={images} // Assuming `images` is an array, display the first image
+                        alt="image"
+                      />
+                      {/* Button is now positioned relative to the parent */}
+                      <div className="absolute top-2 right-2 cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity">
+                        <button className="">D</button>
+                      </div>
+                    </div>
+                  ) : null // Use null or an empty string instead of {''}
+                  }
+                </div>
+              
             </div>
           </div>
           <div className="mx-auto my-4 ">
@@ -173,7 +195,7 @@ const ProductCard = () => {
                 Price
               </label>
               <input
-              onChange={(e)=> setPrice(e.target.value)}
+                onChange={(e) => setPrice(e.target.value)}
                 type="text"
                 id="example1"
                 className="block w-full border rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 p-3"
@@ -190,7 +212,7 @@ const ProductCard = () => {
                 Description
               </label>
               <textarea
-              onChange={(e)=> setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 type="text"
                 id="example1"
                 className="block space-y-1  w-full border rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 p-3"
@@ -198,7 +220,10 @@ const ProductCard = () => {
               />
             </div>
           </div>
-          <button type="submit" className="w-full inline-block rounded border border-[#87e64b] px-12 py-3 text-sm font-medium text-[#87e64b] hover:bg-[#87e64b] hover:text-white focus:outline-none focus:ring active:bg-indigo-500">
+          <button
+            type="submit"
+            className="w-full inline-block rounded border border-[#87e64b] px-12 py-3 text-sm font-medium text-[#87e64b] hover:bg-[#87e64b] hover:text-white focus:outline-none focus:ring active:bg-indigo-500"
+          >
             Add Product
           </button>
         </div>
@@ -207,4 +232,4 @@ const ProductCard = () => {
   );
 };
 
-export default ProductCard;
+export default ProductForm;
