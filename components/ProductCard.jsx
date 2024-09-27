@@ -18,7 +18,7 @@ const ProductCard = () => {
     const fetchProductsData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/products/`,
+          `https://reka-app-admin.vercel.app/api/products/`,
           { cache: "no-store" }
         );
         if (!response.ok) {
