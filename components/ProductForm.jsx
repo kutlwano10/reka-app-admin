@@ -52,7 +52,7 @@ const ProductForm = () => {
     // console.log(formData)
     try {
       console.log(images);
-      const res = await fetch("http://localhost:3000/api/products", {
+      const res = await fetch("https://reka-app-admin.vercel.app/api/products", {
         method: "POST",
         headers: {
           "constent-type": "application/json",
