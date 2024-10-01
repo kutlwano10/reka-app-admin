@@ -22,7 +22,7 @@ const Order = async () => {
   return (
     <div>
       <h1>Orders List</h1>
-      {orderedProducts.bought.map((order) => {
+      {orderedProducts && orderedProducts.bought.map((order) => {
         {console.log(order)}
       return  <OrdersCard key={order._id} order={order} />;
       })}
