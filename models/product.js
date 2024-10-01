@@ -2,11 +2,14 @@ import mongoose, { Schema } from "mongoose";
 
 const productSchema = new Schema(
   {
+    shopId: {type: mongoose.Schema.Types.ObjectId, ref: 'Shop'},
     title: String,
     description: String,
     images : String,
     price : String,
     category: String,
+    stock : Number,
+
     
   },
   { timestamps: true }

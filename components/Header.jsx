@@ -129,7 +129,7 @@ const Header = () => {
                         <span>Transactions</span>
                       </Link>
                       <Link
-                        href="settings"
+                        href="/settings"
                         className="flex items-center space-x-2"
                       >
                         <MdSettings size={30} />
